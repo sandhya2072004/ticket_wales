@@ -1,0 +1,518 @@
+"use client";
+import React, { useState } from "react";
+
+import LoginIcon from "@mui/icons-material/Login";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import MenuIcon from "@mui/icons-material/Menu";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  IconButton,
+  Avatar,
+  Box,
+  Menu,
+  MenuItem,
+  Typography,
+  TextField,
+  Autocomplete,
+  InputAdornment,
+  FormControl,
+  Select,
+} from "@mui/material";
+
+import Link from "next/link";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { useRouter } from "next/navigation"; // for App Router (use "next/router" if you're in Pages Router)
+
+// Transport options
+const transportButtons = [
+  { title: "Flight", image: "/flighte.jpeg", href: "/flight" },
+  { title: "Hotel", image: "/hootel.jpg", href: "/hotel" },
+  { title: "Bus", image: "/bos.jpeg", href: "/bus" },
+  { title: "Auto", image: "/auto.webp", href: "/auto" },
+  { title: "Bike", image: "/bike.jpeg", href: "/bike" },
+  { title: "Parcel", image: "/parcel.jpeg", href: "/parcel" },
+];
+
+const descriptionMap = {
+  Flight: "Book domestic and international flights at great prices.",
+  Hotel: "Find affordable and luxury hotels tailored to your needs.",
+  Bus: "Enjoy comfortable bus journeys across multiple cities.",
+  Auto: "Quick and easy auto-rickshaw booking from your location.",
+  Bike: "Affordable and eco-friendly bike rentals for quick city travel.",
+  Parcel: "Fast and secure parcel delivery to your desired destination.",
+};
+
+const cities = [
+  { label: "New York, USA" },
+  { label: "London, UK" },
+  { label: "Tokyo, Japan" },
+  { label: "Delhi, India" },
+  { label: "Paris, France" },
+  { label: "Sydney, Australia" },
+  { label: "Dubai, UAE" },
+  { label: "Berlin, Germany" },
+  { label: "Toronto, Canada" },
+];
+
+// Translations
+const languageLabels = {
+  en: {
+    about: "About",
+    contact: "Contact",
+    safety: "Safety for Traveling",
+    login: "Login",
+    signup: "Signup",
+    flight: "Flight",
+    hotel: "Hotel",
+    bus: "Bus",
+    auto: "Auto",
+    bike: "Bike",
+    parcel: "Parcel",
+  },
+  hi: {
+    about: "परिचय",
+    contact: "संपर्क करें",
+    safety: "यात्रा सुरक्षा",
+    login: "लॉग इन करें",
+    signup: "साइन अप करें",
+    flight: "उड़ान",
+    hotel: "होटल",
+    bus: "बस",
+    auto: "ऑटो",
+    bike: "बाइक",
+    parcel: "पार्सल",
+  },
+  mr: {
+    about: "परिचय",
+    contact: "संपर्क",
+    safety: "प्रवास सुरक्षित",
+    login: "लॉगिन",
+    signup: "नोंदणी",
+    flight: "फ्लाइट",
+    hotel: "हॉटेल",
+    bus: "बस",
+    auto: "ऑटो",
+    bike: "बाईक",
+    parcel: "पार्सल",
+  },
+  es: {
+    about: "Acerca de",
+    contact: "Contacto",
+    safety: "Seguridad en el viaje",
+    login: "Iniciar sesión",
+    signup: "Registrarse",
+    flight: "Vuelo",
+    hotel: "Hotel",
+    bus: "Autobús",
+    auto: "Auto",
+    bike: "Bicicleta",
+    parcel: "Paquete",
+  },
+  zh: {
+    about: "关于",
+    contact: "联系",
+    safety: "旅行安全",
+    login: "登录",
+    signup: "注册",
+    flight: "航班",
+    hotel: "酒店",
+    bus: "公交车",
+    auto: "自动",
+    bike: "自行车",
+    parcel: "包裹",
+  },
+  fr: {
+    about: "À propos",
+    contact: "Contact",
+    safety: "Sécurité de voyage",
+    login: "Connexion",
+    signup: "Inscription",
+    flight: "Vol",
+    hotel: "Hôtel",
+    bus: "Bus",
+    auto: "Auto",
+    bike: "Vélo",
+    parcel: "Colis",
+  },
+  de: {
+    about: "Über uns",
+    contact: "Kontakt",
+    safety: "Reisesicherheit",
+    login: "Anmelden",
+    signup: "Registrieren",
+    flight: "Flug",
+    hotel: "Hotel",
+    bus: "Bus",
+    auto: "Auto",
+    bike: "Fahrrad",
+    parcel: "Paket",
+  },
+  ar: {
+    about: "معلومات عنا",
+    contact: "اتصل",
+    safety: "سلامة السفر",
+    login: "تسجيل الدخول",
+    signup: "اشتراك",
+    flight: "رحلة طيران",
+    hotel: "فندق",
+    bus: "حافلة",
+    auto: "تلقائي",
+    bike: "دراجة",
+    parcel: "طرد",
+  },
+  ja: {
+    about: "約",
+    contact: "連絡先",
+    safety: "旅行の安全",
+    login: "ログイン",
+    signup: "サインアップ",
+    flight: "フライト",
+    hotel: "ホテル",
+    bus: "バス",
+    auto: "オート",
+    bike: "バイク",
+    parcel: "小包",
+  },
+  ru: {
+    about: "О нас",
+    contact: "Контакт",
+    safety: "Безопасность путешествия",
+    login: "Войти",
+    signup: "Зарегистрироваться",
+    flight: "Рейс",
+    hotel: "Отель",
+    bus: "Автобус",
+    auto: "Авто",
+    bike: "Велосипед",
+    parcel: "Посылка",
+  },
+};
+
+export default function Page() {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [language, setLanguage] = useState("en");
+  const router = useRouter();
+
+  const labels = languageLabels[language];
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value);
+  };
+
+  const authButtons = [
+    {
+      label: labels.login,
+      path: "/login",
+      icon: <LoginIcon />,
+    },
+    {
+      label: labels.signup,
+      path: "/signup",
+      icon: <HowToRegIcon />,
+    },
+  ];
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100%",
+        margin: 0,
+        padding: 0,
+        backgroundColor: "#FFFBEF",
+      }}
+    >
+      <AppBar
+        position="fixed"
+        sx={{
+          height: "70px",
+          backgroundColor: "black",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          px: 2,
+        }}
+      >
+        <Toolbar className="flex justify-between items-center w-full px-8">
+          <div className="flex justify-end gap-3 items-center">
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenu}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              {["about", "contact", "safety"].map((path) => (
+                <MenuItem key={path} onClick={handleClose}>
+                  <Link
+                    href={`/${path}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    {labels[path]}
+                  </Link>
+                </MenuItem>
+              ))}
+            </Menu>
+
+            {transportButtons.map((item) => (
+              <Button
+                key={item.title}
+                component={Link}
+                href={item.href}
+                sx={{
+                  height: "36px",
+                  textTransform: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  color: "black",
+                  backgroundColor: "white",
+                  borderRadius: 2,
+                  px: 2,
+                }}
+              >
+                <Avatar
+                  src={item.image}
+                  alt={item.title}
+                  sx={{ width: 24, height: 24 }}
+                />
+                {labels[item.title.toLowerCase()] || item.title}
+              </Button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3 ml-5 ">
+            {authButtons.map((item) => (
+              <Button
+                key={item.label}
+                component={Link}
+                href={item.path}
+                sx={{
+                  height: "36px",
+                  textTransform: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  color: "black",
+                  backgroundColor: "white",
+                }}
+                startIcon={item.icon}
+              >
+                {item.label}
+              </Button>
+            ))}
+
+            <FormControl
+              size="small"
+              sx={{ backgroundColor: "white", borderRadius: 1 }}
+            >
+              <Select
+                value={language}
+                onChange={handleLanguageChange}
+                sx={{ height: "36px" }}
+              >
+                <MenuItem value="en">English</MenuItem>
+                <MenuItem value="hi">हिन्दी</MenuItem>
+                <MenuItem value="mr">मराठी</MenuItem>
+                <MenuItem value="es">Español</MenuItem>
+                <MenuItem value="zh">中文</MenuItem>
+                <MenuItem value="fr">Français</MenuItem>
+                <MenuItem value="de">Deutsch</MenuItem>
+                <MenuItem value="ar">العربية</MenuItem>
+                <MenuItem value="ja">日本語</MenuItem>
+                <MenuItem value="ru">Русский</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </Toolbar>
+      </AppBar>
+
+      {/* Booking Form Section */}
+      <Box sx={{ backgroundColor: "#FFFBEF", pt: 12 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 4,
+            px: 2,
+          }}
+        >
+          <Box
+            sx={{
+              height: 300,
+              width: 400,
+              backgroundColor: "black",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              padding: 4,
+              borderRadius: 5,
+              boxShadow: 3,
+              marginTop: "100px",
+            }}
+          >
+            <Link
+              href="/booking"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Typography
+                sx={{ fontSize: 20, fontWeight: 900, lineHeight: 1.5 }}
+              >
+                <h1 className="text-4xl">Booking</h1>
+                PLEASE ALL OF YOU SHARE THE JOURNEY FROM STARTING TILL END
+              </Typography>
+            </Link>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              width: 300,
+            }}
+          >
+            <Autocomplete
+              options={cities}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="From"
+                  variant="outlined"
+                  fullWidth
+                  InputProps={{
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FaMapMarkerAlt style={{ color: "black" }} />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+            />
+            <Autocomplete
+              options={cities}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="To"
+                  variant="outlined"
+                  fullWidth
+                  InputProps={{
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FaMapMarkerAlt style={{ color: "black" }} />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+            />
+          </Box>
+
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "black",
+              textTransform: "none",
+              fontSize: "20px",
+              borderRadius: "10px",
+              height: "50px",
+              width: "150px",
+            }}
+          >
+            Ride Book
+          </Button>
+        </Box>
+      </Box>
+
+      {/* Transport Cards */}
+      <Box sx={{ backgroundColor: "#FFFBEF", py: 6, px: 2 }}>
+        <Box display="flex" flexWrap="wrap" justifyContent="center" gap={4}>
+          {transportButtons.map((option) => (
+            <Link
+              key={option.title}
+              href={option.href}
+              style={{ textDecoration: "none" }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  color: "black",
+                  p: 3,
+                  borderRadius: 3,
+                  boxShadow: 4,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: 300,
+                  minHeight: 300,
+                  cursor: "pointer",
+                  transition: "transform 0.2s",
+                  "&:hover": {
+                    transform: "scale(1.03)",
+                  },
+                }}
+              >
+                <Avatar
+                  alt={option.title}
+                  src={option.image}
+                  sx={{ width: 96, height: 96 }}
+                  variant="rounded"
+                />
+                <Typography
+                  variant="h5"
+                  fontWeight="bold"
+                  align="center"
+                  sx={{ mt: 2 }}
+                >
+                  {labels[option.title.toLowerCase()] || option.title}
+                </Typography>
+                <Typography align="center" sx={{ mt: 2 }}>
+                  {descriptionMap[option.title]}
+                </Typography>
+
+                {/* Detail Button */}
+                <Box sx={{ mt: 3, alignSelf: "flex-start" }}>
+                  <Button
+                    style={{ backgroundColor: "black", textTransform: "none" }}
+                    variant="contained"
+                    color="primary"
+                    // onClick={() => console.log(`Details of ${option.title}`)}
+                    onClick={() => router.push("/login")}
+                  >
+                    Details
+                  </Button>
+                </Box>
+              </Box>
+            </Link>
+          ))}
+        </Box>
+      </Box>
+    </Box>
+  );
+}
