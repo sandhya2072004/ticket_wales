@@ -1,20 +1,24 @@
 "use client";
+import Next, { useState } from "react";
 
 import { BorderColor } from "@mui/icons-material";
 import { Button } from "antd";
 import Link from "next/link";
 import React from "react";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 export default function Page() {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className=" min-h-screen bg-gradient-to-br animate-fadeIn bg-[#FFFBEB]  ">
       <div className="flex flex-row  min-h-screen bg-gradient-to-br  animate-fadeIn  ">
         {/* <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-500 via-rose-500 to-pink-500 tracking-wider drop-shadow-md flex justify-self-start ">
           Ticket_Wale
         </h1> */}
-        <div className="bg-[#FFFBEB]  w-full flex justify-center items-center overflow-hidden">
-          <div className=" bg-transparent p-8 shadow-md w-full  max-w-md rounded-3xl flex flex-col gap-4  ">
-            <h1 className="text-3xl font-bold text-center text-gray-800">
+        <div className="bg-[#FFFBEB] w-full flex justify-center items-center overflow-hidden px-4 py-8">
+          <div className=" p-5 shadow-md w-full max-w-sm rounded-2xl flex flex-col gap-4">
+            <h1 className="text-2xl font-bold text-center text-gray-800">
               Welcome Back
             </h1>
 
@@ -25,77 +29,89 @@ export default function Page() {
             >
               <Button
                 style={{
-                  borderRadius: "40px",
-                  height: 50,
-                  fontSize: "18px",
-                  overflow: "hidden",
+                  borderRadius: "30px",
+                  height: 38,
+                  fontSize: "14px",
                 }}
-                className="flex items-center justify-center gap-2 text-gray-700 bg-white border border-transparent hover:border-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200 px-4 w-full shadow-md"
-                variant="outlined"
+                className="flex items-center justify-center gap-2 text-gray-700 bg-white border border-gray-300 hover:border-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 w-full shadow-sm"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
                   alt="Google Logo"
-                  className="h-7 w-auto"
+                  className="h-5 w-auto"
                 />
                 Continue with Google
               </Button>
             </a>
 
-            <p className="text-black flex justify-center   text-2xl">or</p>
-            <form className="space-y-4 flex flex-col ">
+            <p className="text-black text-center text-sm">or</p>
+
+            <form className="space-y-3 text-sm">
               <div>
-                <label className="block text-gray-800 text-0">Name</label>
+                <label className="block text-gray-700 text-xs">Name</label>
                 <input
                   type="text"
-                  placeholder="Enter your name"
-                  className="w-full h-[40px] px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-0 focus:ring-black text-gray-700"
+                  placeholder="Your name"
+                  className="w-full h-[34px] px-3 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black text-gray-700"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-800 text-0">Email</label>
+                <label className="block text-gray-700 text-xs">Email</label>
                 <input
                   type="email"
-                  placeholder="Enter your email"
-                  className="w-full h-[40px] px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-0 focus:ring-black text-gray-700"
+                  placeholder="Your email"
+                  className="w-full h-[34px] px-3 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black text-gray-700"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-800 text-0">Password</label>
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  className="w-full h-[40px] px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-0 focus:ring-black text-gray-700"
-                />
+                <label className="block text-gray-700 text-sm">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    className="w-full px-3 py-1.5 mt-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black text-gray-700 pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-[50%] translate-y-[-50%] text-gray-600 text-lg"
+                  >
+                    {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                  </button>
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full h-[40px] bg-black text-white text-xl py-2 rounded-b-full rounded-t-full hover:bg-gray-800 transition"
+                className="w-full h-[34px] bg-black text-white text-xs rounded-full hover:bg-gray-800 transition"
               >
                 Continue
               </button>
             </form>
-            <p className="text-center mt-4 text-sm flex gap-1 text-gray-600">
+
+            <p className="text-center mt-3 text-[11px] text-gray-600 leading-snug">
               By continuing, you agree to our{" "}
-              <a href="/privacy" className="text-black font-semibold">
-                term
+              <a href="/privacy" className="text-black font-semibold underline">
+                terms
+              </a>{" "}
+              and{" "}
+              <a href="/privacy" className="text-black font-semibold underline">
+                privacy policy
               </a>
-              and
-              <a href="/privacy" className="text-black font-semibold">
-                privacy Policy
-              </a>
+              .
             </p>
-            <p className="text-center mt-4 text-sm text-gray-600">
+
+            <p className="text-center mt-3 text-[11px] text-gray-600">
               Already have an account?{" "}
-              <a href="/signup" className="text-black font-semibold">
-                sign in
+              <a href="/signup" className="text-black font-semibold underline">
+                Sign in
               </a>
             </p>
           </div>
         </div>
+
         <div>
           <video
             // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQyXmEaYyZI8v8jfob8kgwwdmZ-CXgtHDoww&s"

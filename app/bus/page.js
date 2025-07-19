@@ -21,7 +21,7 @@ export default function BusDashboard() {
   return (
     <div className="flex  bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-black text-white p-4">
+      <aside className="w-64 bg-[#5b5ea6] text-white p-4">
         <h2 className="text-2xl font-bold mb-6">Bus Booking</h2>
         <div className="flex flex-col gap-2">
           {navItems.map((item) => (
@@ -29,7 +29,7 @@ export default function BusDashboard() {
               key={item.href}
               component={Link}
               href={item.href}
-              startIcon={item.icon}
+              startIcon={<span style={{ color: "#5b5ea6" }}>{item.icon}</span>}
               variant="contained"
               fullWidth
               sx={{

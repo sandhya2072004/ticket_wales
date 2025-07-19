@@ -26,7 +26,7 @@ export default function Page() {
       }}
     >
       {/* Sidebar */}
-      <div className="w-64 bg-black bg-opacity-80 text-white p-4 h-screen backdrop-blur">
+      <div className="w-64 bg-[#5b5ea6] bg-opacity-80 text-white p-4 h-screen backdrop-blur">
         <h2 className="text-2xl font-bold mb-6">Hotel Booking</h2>
         <div className="space-y-2">
           {navItems.map((item) => (
@@ -34,7 +34,9 @@ export default function Page() {
               <Button
                 component="a"
                 variant="contained"
-                startIcon={item.icon}
+                startIcon={
+                  <span style={{ color: "#5b5ea6" }}>{item.icon}</span>
+                }
                 sx={{
                   height: "40px",
                   textTransform: "none",

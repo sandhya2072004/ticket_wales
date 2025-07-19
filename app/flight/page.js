@@ -49,7 +49,7 @@ export default function Page() {
         backgroundColor: "transparent",
       }}
     >
-      <div className="bg-black h-150">
+      <div className="bg-[#5b5ea6] h-150">
         <div className="flex items-center justify-center py-20">
           <h1 className="text-5xl font-extrabold text-center text-amber-50">
             The best flight offers from anywhere, to everywhere
@@ -141,19 +141,13 @@ export default function Page() {
           <Button
             key={index}
             style={{ color: "white" }}
-            className="!bg-black !h-22 !w-40 "
+            className="!bg-[#5b5ea6] !h-22 !w-40 "
             variant="contained"
           >
             {btn.icon}
             <span className="ml-2">{btn.label}</span>
           </Button>
         ))}
-      </div>
-
-      <div>
-        <div>
-          <h1>Booking flight with Ticket Wale</h1>
-        </div>
       </div>
     </Box>
   );

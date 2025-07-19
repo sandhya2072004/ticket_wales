@@ -1,58 +1,24 @@
 "use client";
+import Next, { useState } from "react";
 
-import React, { useState } from "react";
-import axios from "axios";
+import { BorderColor } from "@mui/icons-material";
 import { Button } from "antd";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // ✅ Next.js navigation
+import React from "react";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const router = useRouter(); // ✅ Correct navigation in Next.js
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    if (!email || !password) {
-      setError("Please fill in all fields.");
-      return;
-    }
-
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/api/ticket_wales",
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (res.status === 200) {
-        router.push("/home"); // ✅ Use router.push in Next.js
-      }
-    } catch (err) {
-      console.error("Login failed:", err);
-      setError(
-        err.response?.data?.message || "Login failed. Please try again."
-      );
-    }
-  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br animate-fadeIn bg-[#FFFBEB]">
-      <div className="flex flex-row min-h-screen animate-fadeIn">
-        <div className="bg-[#FFFBEB] w-full flex justify-center items-center overflow-hidden">
-          <div className="bg-transparent p-8 shadow-md w-full max-w-md rounded-3xl flex flex-col gap-7">
-            <h1 className="text-3xl font-bold text-center text-gray-800">
+    <div className=" min-h-screen bg-gradient-to-br animate-fadeIn bg-[#FFFBEB]">
+      <div className="flex flex-row  min-h-screen bg-gradient-to-br  animate-fadeIn  ">
+        {/* <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-500 via-rose-500 to-pink-500 tracking-wider drop-shadow-md flex justify-self-start ">
+          Ticket_Wale
+        </h1> */}
+        <div className="bg-[#FFFBEB] w-full flex justify-center items-center overflow-hidden px-4 py-8">
+          <div className=" p-6 shadow-md w-full max-w-sm rounded-2xl flex flex-col gap-5">
+            <h1 className="text-2xl font-bold text-center text-gray-800">
               Welcome Back
             </h1>
 
@@ -63,82 +29,93 @@ export default function Page() {
             >
               <Button
                 style={{
-                  borderRadius: "40px",
-                  height: 50,
-                  fontSize: "18px",
-                  overflow: "hidden",
+                  borderRadius: "30px",
+                  height: 40,
+                  fontSize: "14px",
                 }}
-                className="flex items-center justify-center gap-2 text-gray-700 bg-white border border-transparent hover:border-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200 px-4 w-full shadow-md"
+                className="flex items-center justify-center gap-2 text-gray-700 bg-white border border-gray-300 hover:border-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 w-full shadow-sm"
+                variant="outlined"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
                   alt="Google Logo"
-                  className="h-7 w-auto"
+                  className="h-5 w-auto"
                 />
                 Continue with Google
               </Button>
             </a>
 
-            <p className="text-black flex justify-center text-2xl">or</p>
+            <p className="text-black text-center text-base">or</p>
 
-            {/* ✅ Login Form */}
-            <form className="space-y-4" onSubmit={handleLogin}>
+            <form className="space-y-3">
+              {/* <div>
+                <label className="block text-gray-700 text-sm">Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  className="w-full px-3 py-1.5 mt-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black text-gray-700"
+                />
+              </div> */}
+
               <div>
-                <label className="block text-gray-800">Email</label>
+                <label className="block text-gray-700 text-sm">Email</label>
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black text-gray-700"
+                  className="w-full px-3 py-1.5 mt-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black text-gray-700"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-800">Password</label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black text-gray-700"
-                />
+                <label className="block text-gray-700 text-sm">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    className="w-full px-3 py-1.5 mt-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black text-gray-700 pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-[50%] translate-y-[-50%] text-gray-600 text-lg"
+                  >
+                    {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                  </button>
+                </div>
               </div>
-
-              {error && (
-                <p className="text-red-500 text-sm text-center">{error}</p>
-              )}
 
               <button
                 type="submit"
-                className="w-full bg-black text-white py-2 rounded-b-full rounded-t-full hover:bg-gray-800 transition"
+                className="w-full bg-black text-white text-sm py-1.5 rounded-full hover:bg-gray-800 transition"
               >
                 Login
               </button>
             </form>
 
-            <p className="text-center mt-4 text-sm flex gap-1 text-gray-600">
+            <p className="text-center text-xs text-gray-600">
               By continuing, you agree to our{" "}
-              <Link href="/privacy" className="text-black font-semibold">
+              <a href="/privacy" className="text-black font-medium">
                 terms
-              </Link>{" "}
+              </a>{" "}
               and{" "}
-              <Link href="/privacy" className="text-black font-semibold">
+              <a href="/privacy" className="text-black font-medium">
                 privacy policy
-              </Link>
+              </a>
+              .
             </p>
 
-            <p className="text-center mt-4 text-sm text-gray-600">
+            <p className="text-center text-xs text-gray-600">
               Don't have an account?{" "}
-              <Link href="/signup" className="text-black font-semibold">
+              <a href="/signup" className="text-black font-medium">
                 Sign Up
-              </Link>
+              </a>
             </p>
           </div>
         </div>
 
         <div>
           <video
+            // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQyXmEaYyZI8v8jfob8kgwwdmZ-CXgtHDoww&s"
             src="https://cdn.dribbble.com/uploads/48226/original/b8bd4e4273cceae2889d9d259b04f732.mp4?1689028949"
             style={{ objectFit: "cover", objectPosition: "center" }}
             className="w-[700px] h-full rounded-xl"

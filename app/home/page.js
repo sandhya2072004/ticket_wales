@@ -21,9 +21,19 @@ import {
   Select,
 } from "@mui/material";
 
+import { useRouter } from "next/navigation";
+import { FaGooglePlay, FaApple } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaGithub,
+  FaTwitter,
+} from "react-icons/fa";
+
 import Link from "next/link";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { useRouter } from "next/navigation"; // for App Router (use "next/router" if you're in Pages Router)
+// import { useRouter } from "next/navigation"; // for App Router (use "next/router" if you're in Pages Router)
 
 // Transport options
 const transportButtons = [
@@ -236,13 +246,14 @@ export default function Page() {
       <AppBar
         position="fixed"
         sx={{
+          // overflow: "scroll",
           height: "70px",
-          backgroundColor: "black",
+          backgroundColor: "#5b5ea6",
           zIndex: (theme) => theme.zIndex.drawer + 1,
           px: 2,
         }}
       >
-        <Toolbar className="flex justify-between items-center w-full px-8">
+        <Toolbar className="flex justify-between items-center w-full px-8 ">
           <div className="flex justify-end gap-3 items-center">
             <IconButton
               size="large"
@@ -262,7 +273,7 @@ export default function Page() {
               {["about", "contact", "safety"].map((path) => (
                 <MenuItem key={path} onClick={handleClose}>
                   <Link
-                    href={`/${path}`}
+                    href={`/home/${path}`}
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     {labels[path]}
@@ -343,7 +354,6 @@ export default function Page() {
           </div>
         </Toolbar>
       </AppBar>
-
       {/* Booking Form Section */}
       <Box sx={{ backgroundColor: "#FFFBEF", pt: 12 }}>
         <Box
@@ -360,9 +370,10 @@ export default function Page() {
             sx={{
               height: 300,
               width: 400,
-              backgroundColor: "black",
+              backgroundColor: "#5b5ea6",
               color: "white",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               textAlign: "center",
@@ -370,18 +381,27 @@ export default function Page() {
               borderRadius: 5,
               boxShadow: 3,
               marginTop: "100px",
+              gap: 2,
             }}
           >
-            <Link
-              href="/booking"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Typography
-                sx={{ fontSize: 20, fontWeight: 900, lineHeight: 1.5 }}
+            <Typography sx={{ fontSize: 20, fontWeight: 900, lineHeight: 1.5 }}>
+              <h1 className="text-4xl">Booking</h1>
+              PLEASE ALL OF YOU SHARE THE JOURNEY FROM STARTING TILL END
+            </Typography>
+
+            <Link href="/booking" passHref>
+              <Button
+                sx={{
+                  backgroundColor: "white",
+                  color: "black",
+                  fontWeight: "bold",
+                  mt: 2,
+                  textTransform: "none",
+                }}
+                variant="contained"
               >
-                <h1 className="text-4xl">Booking</h1>
-                PLEASE ALL OF YOU SHARE THE JOURNEY FROM STARTING TILL END
-              </Typography>
+                Go to Booking
+              </Button>
             </Link>
           </Box>
 
@@ -436,7 +456,7 @@ export default function Page() {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: "black",
+              backgroundColor: "#5b5ea6",
               textTransform: "none",
               fontSize: "20px",
               borderRadius: "10px",
@@ -448,7 +468,6 @@ export default function Page() {
           </Button>
         </Box>
       </Box>
-
       {/* Transport Cards */}
       <Box sx={{ backgroundColor: "#FFFBEF", py: 6, px: 2 }}>
         <Box display="flex" flexWrap="wrap" justifyContent="center" gap={4}>
@@ -498,21 +517,290 @@ export default function Page() {
 
                 {/* Detail Button */}
                 <Box sx={{ mt: 3, alignSelf: "flex-start" }}>
-                  <Button
-                    style={{ backgroundColor: "black", textTransform: "none" }}
-                    variant="contained"
-                    color="primary"
-                    // onClick={() => console.log(`Details of ${option.title}`)}
-                    onClick={() => router.push("/login")}
-                  >
-                    Details
-                  </Button>
+                  <Link href="/login" passHref>
+                    <Button
+                      component="a"
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#5b5ea6",
+                        textTransform: "none",
+                      }}
+                    >
+                      Details
+                    </Button>
+                  </Link>
                 </Box>
               </Box>
             </Link>
           ))}
         </Box>
       </Box>
+
+      <Box sx={{ p: 4, backgroundColor: "#FFFBEF" }}>
+        <div className="flex flex-col md:flex-row justify-center items-center p-6 gap-8">
+          {/* Left Section - Text */}
+          <Box
+            sx={{
+              maxWidth: 500,
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+            }}
+          >
+            <Typography variant="h3" component="h1" gutterBottom color="black">
+              Quick Rides. Low Fares. Only on Ticket Wale.
+            </Typography>
+            <Typography variant="h6" color="black">
+              At Ticket Wale, we ensure our customers get rides quickly at the
+              most affordable prices.
+            </Typography>
+            <div>
+              <Button
+                style={{
+                  backgroundColor: "#5b5ea6",
+                  textTransform: "none",
+                  boxShadow: "5px",
+                }}
+                className="bg-black"
+                variant="contained"
+              >
+                Book Ride
+              </Button>
+            </div>
+          </Box>
+
+          {/* Right Section - Image Card */}
+          <Box
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#fff",
+              p: 4,
+              borderRadius: 2,
+              boxShadow: 3,
+              maxWidth: 400,
+            }}
+          >
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcFC7vf_J1R1s0J4bIAACUDU-cuPF0J4QGDA&s"
+              alt="Flight"
+              style={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "8px",
+                marginBottom: "20px",
+              }}
+            />
+          </Box>
+        </div>
+      </Box>
+
+      <Box
+        sx={{
+          backgroundColor: "#FFFBEF",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          p: 4,
+          color: "#fff",
+        }}
+      >
+        {/* Heading */}
+        <Typography variant="h3" component="h1" gutterBottom>
+          Buses
+        </Typography>
+
+        {/* Description, Button and Image Row */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 4,
+            mt: 4,
+            textAlign: { xs: "center", md: "left" },
+          }}
+        >
+          {/* Text + Button Group */}
+          <Box
+            sx={{
+              maxWidth: 500,
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+            }}
+          >
+            <Typography variant="h3" component="h1" gutterBottom color="black">
+              Flexible Gigs, Real, Income
+            </Typography>
+            <Typography variant="h6" color="black">
+              At Ticket Wale, we provide reliable and affordable bus travel
+              options to get you where you need to go — comfortably and on time.
+            </Typography>
+            <div>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#5b5ea6",
+                  textTransform: "none",
+                  boxShadow: 2,
+                }}
+              >
+                Book Ride
+              </Button>
+            </div>
+          </Box>
+
+          {/* Image */}
+          <Box
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#fff",
+              p: 4,
+              borderRadius: 2,
+              boxShadow: 3,
+              maxWidth: 400,
+            }}
+          >
+            {" "}
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqe5mo-WZ7u-WsLX72NnY9kgd7_KscG4RKYw&s"
+              alt="Bus"
+              style={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "8px",
+                // boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+              }}
+            />
+          </Box>
+        </Box>
+      </Box>
+
+      <div className="bg-black py-10 px-4 text-white">
+        {/* App Badges */}
+        <Box display="flex" flexDirection="column" alignItems="center" gap={8}>
+          {/* Customer App Section */}
+          <div className="text-center">
+            <p className="text-2xl font-semibold mb-4">Customer App</p>
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
+              <a
+                href="https://play.google.com/store"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                  alt="Get it on Google Play"
+                  className="h-12"
+                />
+              </a>
+              <a
+                href="https://www.apple.com/app-store/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                  alt="Download on the App Store"
+                  className="h-12"
+                />
+              </a>
+            </div>
+          </div>
+
+          {/* Captain App Section */}
+          <div className="text-center">
+            <p className="text-2xl font-semibold mb-4">Captain App</p>
+            <a
+              href="https://play.google.com/store"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                alt="Google Play"
+                className="h-12"
+              />
+            </a>
+          </div>
+        </Box>
+
+        {/* Footer Links */}
+        <Box className="mt-10">
+          <div className="  flex justify-center gap-60">
+            {/* Company Links */}
+            <ul className="space-y-1 text-sm">
+              <li className="font-semibold text-base mb-1">Company</li>
+              <li>Home</li>
+              <li>About</li>
+              <li>Safety</li>
+              <li>Careers</li>
+              <li>Privacy Policy</li>
+            </ul>
+
+            {/* Services Links */}
+            <ul className="space-y-1 text-sm">
+              <li className="font-semibold text-base mb-1">Services</li>
+              <li>Flight</li>
+              <li>Hotel</li>
+              <li>Bus</li>
+              <li>Auto</li>
+              <li>Bike</li>
+              <li>Parcel</li>
+            </ul>
+          </div>
+        </Box>
+
+        {/* Social Icons */}
+        <div className="mt-12 text-center">
+          <h1 className="text-2xl font-semibold mb-6">Follow Us</h1>
+          <div className="flex justify-center gap-6 text-3xl h-[50px] ">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-pink-500 transition-colors duration-300"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-500 transition-colors duration-300"
+            >
+              <FaFacebook />
+            </a>
+            <a
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-400 transition-colors duration-300"
+            >
+              <FaLinkedin />
+            </a>
+            <a
+              href="https://github.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-400 transition-colors duration-300"
+            >
+              <FaGithub />
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-300 transition-colors duration-300"
+            >
+              <FaTwitter />
+            </a>
+          </div>
+          <p className="text-lg">© 2025 Uber Technologies Inc.</p>
+        </div>
+      </div>
     </Box>
   );
 }
